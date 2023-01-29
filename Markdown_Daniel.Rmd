@@ -1,0 +1,115 @@
+---
+title: "Analisis1"
+author: "Daniel Gonzalez"
+date: "2023-01-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE}
+films <- read.csv("movies.csv")
+```
+
+## Hoja de trabajo 1
+
+### 1. Resumen del conjunto de datos.  
+
+El conjunto de datos está compuesto por `r nrow(films)` filas
+y `r ncol(films)` columnas.  
+
+El resumen del conjunto de datos es el siguiente:
+```{r echo=FALSE}
+summary(films)
+```
+
+### 2. Tipo de cada una de las variables de dataset.  
+
+Id: Cualitativa nominal  
+Budget: Cuantitativa continua  
+Genres: Cualitativa nominal  
+HomePage: Cualitativa nominal  
+ProductionCompany: Cualitativa nominal  
+ProductionCompanyCountry: Cualitativa nominal  
+ProductionCountry: Cualitativa nominal  
+Revenue: Cuantitativa continua  
+Runtime: Cuantitativa discreta  
+Video: Cualitativa nominal  
+Director: Cualitativa nominal  
+Actors: Cualivativa nominal  
+ActorsPopularity: Cuantitativa continua  
+ActorsCharacter: Cualitativa nominal  
+Title: Cualitativa nominal  
+originalLanguage: Cualitativa nominal  
+Popularity: Cuantitativa continua  
+Release date: Cualitativa ordinal  
+VoteAvg: Cuantitativa continua  
+VoteCount: Cuantitativa discreta  
+GenresAmount: Cuantitativa discreta  
+ProductionCoAmount: Cuantitativa discreta  
+ProductionCountriesAmount: Cuantitativa discreta  
+ActorsAmount: Cuantitativa discreta  
+CastWomenAmount: Cuantitativa discreta  
+CastMenAmount: Cuantitativa discreta  
+
+## 3. Pruebas de normalidad para variables cuantitativas y tablas de  
+## frecuencia para variables cualitativas.  
+### Prueba de normalidad para **budget**.  
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de budget.  
+```{r echo=FALSE}
+qqnorm(films$budget)
+qqline(films$budget, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(films$budget, rnorm(nrow(films), mean(films$budget), sd(films$budget)))
+
+library(nortest)
+lillie.test(films$budget)
+```
+
+
+
+
+## 4. Preguntas importantes del dataset.
+
+### 4.1 ¿Cuáles son las 10 películas que contaron con más presupuesto?  
+
+Las 10 películas que tuvieron mayor presupuesto se muestran a continuación  
+mostrando también su presupuesto respectivo.
+```{r, echo=FALSE}
+ordered <- films[order(films$budget, decreasing=T),]
+firstTenMovies <- ordered[1:10,]
+firstTenMovies[, c("title", "budget")]
+```
+
+
+### 4.2 ¿Cuáles son las 10 películas que más ingresos tuvieron?  
+
+Las 10 películas que tuvieron más ingresos, con su cantidad respectiva, se  
+muestran a continuación.
+```{r, echo=FALSE}
+filmsByRevenue <- films[order(films$revenue, decreasing=T),]
+firstTenMovies <- filmsByRevenue[1:10,]
+firstTenMovies[, c("title", "revenue")]
+```
+
+### 4.3 ¿Cuál es la películas que más votos tuvo?  
+
+La película que más votos tuvo se muestra a continuación  
+```{r, echo=FALSE}
+ordered <- films[order(films$voteCount, decreasing=T),]
+firstTenMovies <- ordered[1,]
+firstTenMovies[, c("title", "voteCount")]
+```
+
+
+
