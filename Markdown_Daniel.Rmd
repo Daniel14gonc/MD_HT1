@@ -77,6 +77,136 @@ lillie.test(films$budget)
 ```
 
 
+Luego se realizó un QQplot para observar la distribución de los
+valores de runtime.  
+```{r echo=FALSE}
+qqnorm(films$runtime)
+qqline(films$runtime, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(films$runtime, rnorm(nrow(films), mean(films$runtime), sd(films$runtime)))
+
+library(nortest)
+lillie.test(films$runtime)
+```
+
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de popularity.  
+```{r echo=FALSE}
+qqnorm(films$popularity)
+qqline(films$popularity, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(films$popularity, rnorm(nrow(films), mean(films$popularity), sd(films$popularity)))
+
+library(nortest)
+lillie.test(films$popularity)
+```
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de voteAvg.  
+```{r echo=FALSE}
+qqnorm(films$voteAvg)
+qqline(films$voteAvg, col="red")
+hist(films$voteAvg)
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(films$voteAvg, rnorm(nrow(films), mean(films$voteAvg), sd(films$voteAvg)))
+
+library(nortest)
+lillie.test(films$voteAvg)
+```
+
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de voteCount.  
+```{r echo=FALSE}
+qqnorm(films$voteCount)
+qqline(films$voteCount, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(films$voteCount, rnorm(nrow(films), mean(films$voteCount), sd(films$voteCount)))
+
+library(nortest)
+lillie.test(films$voteCount)
+```
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de genresAmount.  
+```{r echo=FALSE}
+qqnorm(films$genresAmount)
+qqline(films$genresAmount, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(films$genresAmount, rnorm(nrow(films), mean(films$genresAmount), sd(films$genresAmount)))
+
+library(nortest)
+lillie.test(films$genresAmount)
+```
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de productionCoAmount.  
+```{r echo=FALSE}
+qqnorm(films$productionCoAmount)
+qqline(films$productionCoAmount, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+
+ks.test(films$productionCoAmount, rnorm(nrow(films), mean(films$productionCoAmount), sd(films$productionCoAmount)))
+
+library(nortest)
+lillie.test(films$productionCoAmount)
+```
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de castWomenAmount.  
+```{r echo=FALSE}
+castWomen <- strtoi(films$castWomenAmount)
+length(castWomen)
+qqnorm(castWomen)
+qqline(castWomen, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(castWomen)
+```
 
 
 ## 4. Preguntas importantes del dataset.
@@ -110,6 +240,55 @@ ordered <- films[order(films$voteCount, decreasing=T),]
 firstTenMovies <- ordered[1,]
 firstTenMovies[, c("title", "voteCount")]
 ```
+
+
+### 4.10 ¿Quiénes son los directores que hicieron las 20 películas mejor 
+calificadas? 
+
+
+```{r, echo=FALSE}
+ordered <- films[order(films$voteAvg, decreasing=T),]
+firstTenMovies <- ordered[1:20,]
+firstTenMovies[, c("director")]
+```
+
+## OTRO 4.6
+
+```{r}
+ordered <- films[order(films$runtime, decreasing=T),]
+firstTwentyMovies <- ordered[1:20,]
+firstTwentyMovies[, c("genres")]
+genres20 <- vapply(strsplit(firstTwentyMovies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+genres <- vapply(strsplit(films[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+table <- table(genres)
+names(table[which.max(table)])
+barplot(table)
+
+```
+
+## 4.12
+
+```{r}
+months <- strtoi(format(as.POSIXct(films$releaseDate), "%m"))
+chisq.test(months, films$revenue)
+```
+
+## 4.14
+
+```{r}
+cor(films$voteAvg, films$popularity)
+cor(films$popularity, films$revenue)
+cor(films$voteAvg, films$revenue)
+```
+
+## 4.11
+
+```{r}
+cor(films$budget, films$revenue)
+```
+
 
 
 
