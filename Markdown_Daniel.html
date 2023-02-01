@@ -480,7 +480,7 @@ dataset. También se realizó la prueba de normalidad de lLilliefors.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$budget and rnorm(nrow(films), mean(films$budget), sd(films$budget))
-## D = 0.3011, p-value &lt; 2.2e-16
+## D = 0.3018, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -513,7 +513,7 @@ prueba de normalidad con Lilliefors.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$runtime and rnorm(nrow(films), mean(films$runtime), sd(films$runtime))
-## D = 0.141, p-value &lt; 2.2e-16
+## D = 0.1447, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -540,7 +540,7 @@ para determinar si se tiene una distribución normal.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$popularity and rnorm(nrow(films), mean(films$popularity), sd(films$popularity))
-## D = 0.4076, p-value &lt; 2.2e-16
+## D = 0.426, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -572,7 +572,7 @@ para determinar si se tiene una distribución normal.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$voteAvg and rnorm(nrow(films), mean(films$voteAvg), sd(films$voteAvg))
-## D = 0.0482, p-value = 1.627e-10
+## D = 0.0465, p-value = 8.138e-10
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -598,7 +598,7 @@ usando la media y desviación estándar del budget del dataset.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$voteCount and rnorm(nrow(films), mean(films$voteCount), sd(films$voteCount))
-## D = 0.293, p-value &lt; 2.2e-16
+## D = 0.2973, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -619,7 +619,7 @@ usando la media y desviación estándar del budget del dataset.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$genresAmount and rnorm(nrow(films), mean(films$genresAmount), sd(films$genresAmount))
-## D = 0.1894, p-value &lt; 2.2e-16
+## D = 0.1891, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -640,7 +640,7 @@ usando la media y desviación estándar del budget del dataset.</p>
 ##  Asymptotic two-sample Kolmogorov-Smirnov test
 ## 
 ## data:  films$productionCoAmount and rnorm(nrow(films), mean(films$productionCoAmount), sd(films$productionCoAmount))
-## D = 0.1986, p-value &lt; 2.2e-16
+## D = 0.1962, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided</code></pre>
 <pre><code>## 
 ##  Lilliefors (Kolmogorov-Smirnov) normality test
@@ -698,60 +698,35 @@ muestran a continuación.</p>
 <pre><code>##          title voteCount
 ## 3512 Inception     30788</code></pre>
 </div>
-<div id="quiénes-son-los-directores-que-hicieron-las-20-películas-mejor" class="section level3">
-<h3>4.10 ¿Quiénes son los directores que hicieron las 20 películas
-mejor</h3>
-<p>calificadas?</p>
-<pre><code>##  [1] &quot;Thomas Coven&quot;                                                                               
-##  [2] &quot;V\xedctor Barba|Juan Olivares&quot;                                                              
-##  [3] &quot;Rebecca Sugar&quot;                                                                              
-##  [4] &quot;Laurent Bouzereau&quot;                                                                          
-##  [5] &quot;Kaku Arakawa&quot;                                                                               
-##  [6] &quot;Christin Baker&quot;                                                                             
-##  [7] &quot;&quot;                                                                                           
-##  [8] &quot;Miguel Angel Zavala&quot;                                                                        
-##  [9] &quot;&quot;                                                                                           
-## [10] &quot;Dave Bullock|Troy Adomitis|Victor Cook&quot;                                                     
-## [11] &quot;Samuel Leong&quot;                                                                               
-## [12] &quot;&quot;                                                                                           
-## [13] &quot;&quot;                                                                                           
-## [14] &quot;Won Myeong-jun&quot;                                                                             
-## [15] &quot;Selena Quintanilla&quot;                                                                         
-## [16] &quot;Haruo Sotozaki&quot;                                                                             
-## [17] &quot;Haruo Sotozaki&quot;                                                                             
-## [18] &quot;&quot;                                                                                           
-## [19] &quot;Ulises Valencia&quot;                                                                            
-## [20] &quot;Kim Nam-joon|Jeon Jung-kook|Kim Tae-hyung|Park Ji-min|Jung Ho-seok|Kim Seok-jin|Min Yoon-gi&quot;</code></pre>
+<div id="quiénes-son-los-directores-que-hicieron-las-20-películas-mejor-calificadas" class="section level3">
+<h3>4.10 ¿Quiénes son los directores que hicieron las 20 películas mejor
+calificadas?</h3>
+<pre><code>## [1] &quot;Thomas Coven&quot;
+## [1] &quot;Rebecca Sugar&quot;
+## [1] &quot;Laurent Bouzereau&quot;
+## [1] &quot;Kaku Arakawa&quot;
+## [1] &quot;Christin Baker&quot;
+## [1] &quot;Miguel Angel Zavala&quot;
+## [1] &quot;Dave Bullock&quot;  &quot;Troy Adomitis&quot; &quot;Victor Cook&quot;  
+## [1] &quot;Samuel Leong&quot;
+## [1] &quot;Won Myeong-jun&quot;
+## [1] &quot;Selena Quintanilla&quot;
+## [1] &quot;Haruo Sotozaki&quot;
+## [1] &quot;Ulises Valencia&quot;
+## [1] &quot;Kim Nam-joon&quot;   &quot;Jeon Jung-kook&quot; &quot;Kim Tae-hyung&quot;  &quot;Park Ji-min&quot;   
+## [5] &quot;Jung Ho-seok&quot;   &quot;Kim Seok-jin&quot;   &quot;Min Yoon-gi&quot;</code></pre>
 </div>
 </div>
 <div id="otro-4.6" class="section level2">
 <h2>OTRO 4.6</h2>
 <pre class="r"><code>ordered &lt;- films[order(films$runtime, decreasing=T),]
 firstTwentyMovies &lt;- ordered[1:20,]
-firstTwentyMovies[, c(&quot;genres&quot;)]</code></pre>
-<pre><code>##  [1] &quot;Documentary&quot;                             
-##  [2] &quot;Documentary&quot;                             
-##  [3] &quot;Drama|History|War&quot;                       
-##  [4] &quot;Drama|History&quot;                           
-##  [5] &quot;Drama|History|Romance&quot;                   
-##  [6] &quot;Action|Crime|Thriller&quot;                   
-##  [7] &quot;Drama&quot;                                   
-##  [8] &quot;Action|Adventure|Fantasy|Science Fiction&quot;
-##  [9] &quot;Documentary&quot;                             
-## [10] &quot;Action|Drama&quot;                            
-## [11] &quot;Action|Drama&quot;                            
-## [12] &quot;Crime|Drama|Romance&quot;                     
-## [13] &quot;Drama|War|Romance&quot;                       
-## [14] &quot;Music|Documentary&quot;                       
-## [15] &quot;Drama|Crime&quot;                             
-## [16] &quot;War|History|Adventure|Drama&quot;             
-## [17] &quot;Action|Drama|History&quot;                    
-## [18] &quot;Drama|History&quot;                           
-## [19] &quot;Documentary|Comedy&quot;                      
-## [20] &quot;Comedy|Documentary&quot;</code></pre>
-<pre class="r"><code>genres20 &lt;- vapply(strsplit(firstTwentyMovies[, c(&quot;genres&quot;)], split=&quot;|&quot;, fixed = T), &#39;[&#39;, 1, FUN.VALUE = character(1))
+genres20 &lt;- vapply(strsplit(firstTwentyMovies[, c(&quot;genres&quot;)], split=&quot;|&quot;, fixed = T), &#39;[&#39;, 1, FUN.VALUE = character(1))
 
-genres &lt;- vapply(strsplit(films[, c(&quot;genres&quot;)], split=&quot;|&quot;, fixed = T), &#39;[&#39;, 1, FUN.VALUE = character(1))
+unique(genres20)</code></pre>
+<pre><code>## [1] &quot;Documentary&quot; &quot;Drama&quot;       &quot;Action&quot;      &quot;Crime&quot;       &quot;Music&quot;      
+## [6] &quot;War&quot;         &quot;Comedy&quot;</code></pre>
+<pre class="r"><code>genres &lt;- vapply(strsplit(films[, c(&quot;genres&quot;)], split=&quot;|&quot;, fixed = T), &#39;[&#39;, 1, FUN.VALUE = character(1))
 
 table &lt;- table(genres)
 names(table[which.max(table)])</code></pre>

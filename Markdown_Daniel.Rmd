@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r echo=FALSE}
-films <- read.csv("movies.csv")
+films <- read.csv("movies.csv",encoding = "UTF-8")
 ```
 
 ## Hoja de trabajo 1
@@ -284,14 +284,21 @@ firstTenMovies[, c("title", "voteCount")]
 ```
 
 
-### 4.10 ¿Quiénes son los directores que hicieron las 20 películas mejor 
-calificadas? 
+### 4.10 ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas? 
 
 
 ```{r, echo=FALSE}
 ordered <- films[order(films$voteAvg, decreasing=T),]
-firstTenMovies <- ordered[1:20,]
-firstTenMovies[, c("director")]
+directors <- ordered[1:20,]
+directors <- directors[, c("director")]
+directors <- directors[directors != ""]
+directors <- unique(directors)
+for (x in directors) {
+  if (validUTF8(x)) {
+    print(unlist(strsplit(x, split = "|", fixed = T)))
+  }
+}
+# strsplit(directors, split = "|", fixed = T) 
 ```
 
 ## OTRO 4.6
@@ -299,8 +306,9 @@ firstTenMovies[, c("director")]
 ```{r}
 ordered <- films[order(films$runtime, decreasing=T),]
 firstTwentyMovies <- ordered[1:20,]
-firstTwentyMovies[, c("genres")]
 genres20 <- vapply(strsplit(firstTwentyMovies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+unique(genres20)
 
 genres <- vapply(strsplit(films[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
 
@@ -331,6 +339,12 @@ cor(films$voteAvg, films$revenue)
 cor(films$budget, films$revenue)
 ```
 
+## Preguntas extra
 
+### ¿La cantidad de géneros a la que pertenece una películas influye en su popularidad y sus ganancias?
+
+### ¿La popularidad de una película se relaciona con la popularidad de los actores en ella?
+
+### ¿Cuál es la correlación entre la cantidad de compañías y la popularidad de una película?
 
 
