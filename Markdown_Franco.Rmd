@@ -12,18 +12,21 @@ knitr::opts_chunk$set(echo = TRUE)
 films <- read.csv("movies.csv",encoding = "UTF-8")
 ```
 
-## 4.13 
+## 4.15
 
 ```{r, echo=FALSE}
-ordered <- films[order(films$runtime, decreasing=T),]
+ordered <- films[order(-films$runtime),]
 firstTenMovies <- ordered[1:10,]
-firstTenMovies <- firstTenMovies[, c("title", "runtime")]
 
-library(ggplot2)
 
-p <- ggplot(firstTenMovies, aes(x=title, y=runtime, fill=title)) +
-  geom_bar(stat="identity")+theme_minimal()+theme(axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+genres10 <- vapply(strsplit(firstTenMovies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
 
-p + scale_fill_brewer(palette="Dark2")
+top_gen <- firstTenMovies$genres
+
+top_gen
+genres10
+
+
 ```
+
+
