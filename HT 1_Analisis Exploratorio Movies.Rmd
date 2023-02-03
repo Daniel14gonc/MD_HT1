@@ -589,7 +589,7 @@ Con lo observado en la correlacion se puede inferir que la cantidad de actores h
 films <- read.csv("movies.csv",encoding = "UTF-8")
 ```
 
-### 4.10
+### 4.10 ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas? 
 
 Los directores que hicieron las 20 películas mejor 
 calificadas son:
@@ -607,7 +607,7 @@ for (x in directors) {
 # strsplit(directors, split = "|", fixed = T) 
 ```
 
-## 4.11
+### 4.11 ¿Cómo  se  correlacionan  los  presupuestos  con  los  ingresos?  ¿Los  altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma,diagrama de dispersión 
 ```{r echo = FALSE}
 library(corrplot)
 
@@ -620,7 +620,7 @@ Por medio de la grafica nos podemos dar cuenta que existe una relacion entre el 
 
 
 
-## 4.12
+### 4.12 ¿Se asocian ciertos meses de lanzamiento con mejores ingresos? 
 
 ```{r}
 
@@ -635,8 +635,7 @@ barplot(ingresos_por_mes, main="Ingresos promedio por mes", xlab="Mes", ylab="In
 
 
 
-## 4.13
-Las peliculas con mejores ingresos se lanzaron en los siguinetes meses:
+### 4.13 ¿En qué meses se han visto los lanzamientos con mejoresingresos? ¿cuantas películas, en promedio, se han lanzado por mes? Las peliculas con mejores ingresos se lanzaron en los siguinetes meses:
 ```{r, echo=FALSE}
 #quantile(films$revenue, seq(0,1,0.001))
 MejoresIn <- films[films$revenue >= 1.450092e+09, ]
@@ -664,7 +663,7 @@ promedio_lanzamientos_por_mes
 
 ```
 
-## 4.14
+### 4.14 ¿Cómo se correlacionan las calificaciones con el éxito comercial? 
 
 ```{r echo = FALSE}
 library(corrplot)
@@ -677,7 +676,7 @@ corrplot(mat)
 Como se observe en la grafica si existe una ralacion sobre las peliculas que obtuvieron mayor cantidad de ingresos con las que fueron mayor votadas.
 
 
-## 4.15
+### 4.15 ¿A qué género principal pertenecen las películas más largas? 
 Los generos principales de las peliculas mas largas son:
 
 ```{r, echo=FALSE}
@@ -700,7 +699,7 @@ unique(mayores$genres)
 ```{r echo=F}
 
 library(ggplot2)
-ggplot(movies, aes(x=popularity, y=genresAmount))
+ggplot(movies, aes(x=popularity, y=genresAmount)) + geom_point()
 
 library(corrplot)
 library(RColorBrewer)
@@ -773,7 +772,7 @@ p
 
 Al observar el histograma, se puede mencionar que los lenguajes que más revenue promedio tienen son el chino, el inglés y el árabe.
 
-## ¿La popularidad de una película se relaciona con la popularidad de los actores en ella?
+### ¿La popularidad de una película se relaciona con la popularidad de los actores en ella?
 ```{r echo = FALSE}
 library(corrplot)
 
@@ -808,7 +807,7 @@ corrplot(mat)
 Tras observar el grafico se puede notar que la relacion entre la popularidad de las peliculas y la de los actores es muy pequeña y se puede considerar casi nula.
 
 
-## ¿El presupuesto de una pelicula se relaciona con la popularidad de los actores en ella?
+### ¿El presupuesto de una pelicula se relaciona con la popularidad de los actores en ella?
 ```{r echo = FALSE}
 library(corrplot)
 
