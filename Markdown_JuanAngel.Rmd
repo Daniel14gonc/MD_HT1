@@ -9,22 +9,122 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r,echo=FALSE}
+movies <- read.csv("movies.csv")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## Hoja de trabajo 1
 
+## 4. Preguntas importantes del dataset.
+
+### 4.4 ¿Cuál es la peor película de acuerdo a los votos de todos los usuarios?   
+
+
+La pelicula con el peor promedio de estrellas es
+```{r, echo=FALSE}
+worst <- movies[which.min(movies$voteAvg),]
+worst$title
+```  
+
+### 4.5 ¿Cuántas  películas  se  hicieron  en  cada  año?   Haga un gráfico de barras  
 ```{r pressure, echo=FALSE}
-plot(pressure)
+
+library(dplyr)
+
+movies$releaseDate <- as.Date(movies$releaseDate, format = "%Y-%m-%d")
+
+movies$releaseYear<-as.numeric(format(movies$releaseDate,format="%Y"))
+
+movies_per_year <- movies %>%group_by(releaseYear) %>%summarise(count = n())
+
+mostyears <- movies_per_year %>% slice_tail(n = 1) %>% pull(releaseYear)
+movies_per_year
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### ¿En  qué  año  se  hicieron  más películas?  
+
+Fue en el `r mostyears`.   
+
+```{r , echo=FALSE}
+library(ggplot2)
+
+ggplot(movies_per_year, aes(releaseYear, count)) +
+  geom_col() +
+  ggtitle(paste("Number of movies produced per year (Max in", mostyears, ")")) +
+  xlab("Year") +
+  ylab("Count")
+
+```
+
+### 4.6 ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género principal que predomina en el conjunto de datos? Represéntelo usando un gráfico 
+
+
+```{r , echo=FALSE}
+ordered <- movies[order(movies$runtime, decreasing=T),]
+firstTwentyMovies <- ordered[1:20,]
+genres20 <- vapply(strsplit(firstTwentyMovies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+unique(genres20)
+
+genres <- vapply(strsplit(movies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+table <- table(genres)
+names(table[which.max(table)])
+barplot(table)
+
+
+```
+
+### 4.7 ¿Las películas de qué genero principal obtuvieron mayores ganancias? 
+
+
+```{r, echo = F}
+
+genres2 <- vapply(strsplit(movies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE =character(1))
+movies_with_genres <- cbind(movies, genres2)
+total_revenue_by_genre <- movies_with_genres %>% group_by(genres2) %>% summarise(revenue = sum(revenue))
+top_genre_by_revenue <- total_revenue_by_genre[order(-total_revenue_by_genre$revenue), ]
+
+head(top_genre_by_revenue, 5)
+
+
+```
+
+### 4.8 ¿La cantidad de actores influye en los ingresos de las películas?
+
+```{r, echo = F}
+library(dplyr)
+movies_grouped <- movies %>% group_by(actorsAmount) %>% summarize(mean_revenue = mean(revenue))
+library(ggplot2)
+ggplot(movies_grouped, aes(x = actorsAmount, y = mean_revenue)) + 
+  geom_col() + 
+  xlab("Cantidad de actores") + 
+  ylab("Media de ingresos (en millones)") + 
+  ggtitle("Relación entre la cantidad de actores y los ingresos de las películas")
+
+```
+
+### 4.8 ¿Se han hecho  películas con más actores en los últimos años? 
+
+```{r, echo = F}
+# primero convertimos la fecha de lanzamiento a un formato de fecha
+movies$releaseDate <- as.Date(movies$releaseDate, format = "%Y-%m-%d")
+
+# luego agregamos una columna para el año
+movies$releaseYear <- as.numeric(format(movies$releaseDate, format = "%Y"))
+
+# agrupamos las películas por año y calculamos el promedio de actores por película por año
+mean_actors_per_movie_per_year <- movies %>%
+  group_by(releaseYear) %>%
+  summarise(mean_actors = mean(actorsAmount))
+
+# hacemos un gráfico de barras para visualizar la tendencia
+library(ggplot2)
+ggplot(mean_actors_per_movie_per_year, aes(x = releaseYear, y = mean_actors)) +
+  geom_col() +
+  labs(x = "Año de lanzamiento", y = "Promedio de actores por película")
+
+
+```
