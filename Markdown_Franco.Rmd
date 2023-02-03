@@ -1,0 +1,116 @@
+---
+title: "Markdown_Franco.Rmd"
+author: "Diego Franco"
+date: "2023-31-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r echo=FALSE}
+films <- read.csv("movies.csv",encoding = "UTF-8")
+```
+### 4.10
+
+
+```{r, echo=FALSE}
+ordered <- films[order(films$voteAvg, decreasing=T),]
+directors <- ordered[1:20,]
+directors <- directors[, c("director")]
+directors <- directors[directors != ""]
+directors <- unique(directors)
+for (x in directors) {
+  if (validUTF8(x)) {
+    print(unlist(strsplit(x, split = "|", fixed = T)))
+  }
+}
+# strsplit(directors, split = "|", fixed = T) 
+```
+
+## 4.11
+```{r echo = FALSE}
+library(corrplot)
+
+mat <- cor(films[,c("revenue","budget","voteAvg","voteCount","popularity","genresAmount")])
+
+corrplot(mat)
+```
+
+Por medio de la grafica nos podemos dar cuenta que existe una relacion entre el presupuesto y los ingresos de las peliculas. Cabe mencionar que existen datos a tipicos que no cumplen con la relacion pero esto no quiere decir que no exista.
+
+
+
+## 4.12
+
+```{r}
+
+meses <- as.Date(films[, c("releaseDate")])
+
+ingresos_por_mes <- tapply(films$revenue, format(meses, "%m"), mean)
+
+barplot(ingresos_por_mes, main="Ingresos promedio por mes", xlab="Mes", ylab="Ingresos promedio")
+```
+
+ A partir de la grafica se puede asumir que los meses asociados con mejores ingresos son: mayo, junio, julio y diciembre.
+
+
+
+## 4.13
+Las peliculas con mejores ingresos se lanzaron en los siguinetes meses:
+```{r, echo=FALSE}
+#quantile(films$revenue, seq(0,1,0.001))
+MejoresIn <- films[films$revenue >= 1.450092e+09, ]
+
+meses <- as.Date(MejoresIn[, c("releaseDate")])
+mes <- format(meses, "%B")
+
+unique(mes)
+
+
+```
+En promedio por mes se lanzaron:
+```{r, echo=FALSE}
+
+totalM <- as.Date(films[, c("releaseDate")])
+
+fechas_por_mes <- paste(format(totalM, "%Y"), format(totalM, "%m"), sep="-")
+
+lanzamientos_por_mes <- table(fechas_por_mes)
+
+promedio_lanzamientos_por_mes <- mean(lanzamientos_por_mes)
+
+promedio_lanzamientos_por_mes
+
+
+```
+
+## 4.14
+
+```{r echo = FALSE}
+library(corrplot)
+
+mat <- cor(films[,c("revenue","budget","voteAvg","voteCount","popularity","genresAmount")])
+
+corrplot(mat)
+```
+
+Como se observe en la grafica si existe una ralacion sobre las peliculas que obtuvieron mayor cantidad de ingresos con las que fueron mayor votadas.
+
+
+## 4.15
+Los generos principales de las peliculas mas largas son:
+
+```{r, echo=FALSE}
+#quantile(films$runtime, seq(0,1,0.01))
+mayores <- films[films$runtime >= 170, ]
+
+
+mayores$genres <- vapply(strsplit(mayores[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+unique(mayores$genres)
+
+
+```
+
+
