@@ -1,0 +1,860 @@
+---
+title: "HT 1. Analisis Exploratorio"
+author: "Juan Angel Carrera, Jose Daniel Gonzalez, Diego Jose Franco"
+date: "2023-02-03"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE}
+movies <- read.csv("movies.csv",encoding = "UTF-8")
+```
+
+## Hoja de trabajo 1
+
+### 1. Resumen del conjunto de datos.  
+
+El conjunto de datos está compuesto por `r nrow(movies)` filas
+y `r ncol(movies)` columnas.  
+
+El resumen del conjunto de datos es el siguiente:
+```{r echo=FALSE}
+summary(movies)
+```
+
+### 2. Tipo de cada una de las variables de dataset.  
+
+Id: Cualitativa nominal  
+Budget: Cuantitativa continua  
+Genres: Cualitativa nominal  
+HomePage: Cualitativa nominal  
+ProductionCompany: Cualitativa nominal  
+ProductionCompanyCountry: Cualitativa nominal  
+ProductionCountry: Cualitativa nominal  
+Revenue: Cuantitativa continua  
+Runtime: Cuantitativa discreta  
+Video: Cualitativa nominal  
+Director: Cualitativa nominal  
+Actors: Cualivativa nominal  
+ActorsPopularity: Cuantitativa continua  
+ActorsCharacter: Cualitativa nominal  
+Title: Cualitativa nominal  
+originalLanguage: Cualitativa nominal  
+Popularity: Cuantitativa continua  
+Release date: Cualitativa ordinal  
+VoteAvg: Cuantitativa continua  
+VoteCount: Cuantitativa discreta  
+GenresAmount: Cuantitativa discreta  
+ProductionCoAmount: Cuantitativa discreta  
+ProductionCountriesAmount: Cuantitativa discreta  
+ActorsAmount: Cuantitativa discreta  
+CastWomenAmount: Cuantitativa discreta  
+CastMenAmount: Cuantitativa discreta  
+
+## 3. Pruebas de normalidad para variables cuantitativas y tablas de  
+## frecuencia para variables cualitativas.  
+##  
+### Pruebas de normalidad  
+### Prueba de normalidad para **budget**.  
+  
+Inicialmente se muestra un histograma de la distribución de budget.
+
+```{r echo=F}
+hist(movies$budget)
+```
+
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de budget.  
+```{r echo=FALSE}
+qqnorm(movies$budget)
+qqline(movies$budget, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Para corroborar esto se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset. También se realizó la prueba de normalidad de lLilliefors.
+
+```{r echo=F}
+ks.test(movies$budget, rnorm(nrow(movies), mean(movies$budget), sd(movies$budget)))
+
+library(nortest)
+lillie.test(movies$budget)
+```
+
+Como se observa en ambos resultados, el valor de p es menor que el nivel de significancia (0.05), por lo que se puede afirmar que la distribución de budget no es normal.  
+
+### Prueba de normalidad para **runtime**.
+
+Primero se realizó un histograma para observar la distribución de la variable.
+
+```{r echo=F}
+hist(movies$runtime)
+```
+
+Luego se realizó un QQplot para observar la distribución de los
+valores de runtime.  
+```{r echo=FALSE}
+qqnorm(movies$runtime)
+qqline(movies$runtime, col="red")
+```
+
+En este caso, la distribución de los datos de runtime no se aleja tanto de la distribución teórica. Los extremos de los datos son los que están más alejados de la línea teórica. Por otra parte, en el histograma anterior, se puede observar que se tiene una forma que pareciera ser normal.
+
+Se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar de runtime del dataset. Además, se hizo una prueba de normalidad con Lilliefors. 
+
+```{r echo=F}
+ks.test(movies$runtime, rnorm(nrow(movies), mean(movies$runtime), sd(movies$runtime)))
+
+library(nortest)
+lillie.test(movies$runtime)
+```
+
+Al observar los resultados de ambas pruebas, los valores de p son menores que el nivel de significancia. Por lo tanto, la distribución de runtime no es normal.  
+
+### Prueba de normalidad para **popularity**.
+
+Se realizó un QQplot para observar la distribución de los
+valores de popularity.  
+```{r echo=FALSE}
+qqnorm(movies$popularity)
+qqline(movies$popularity, col="red")
+```
+
+Es posible observar que la distribución de la variable sigue la distribución teórica. Sin embargo, en el extremo final, se aleja bastante de la línea.  
+
+Se realizó la prueba de normalidad de Kolmogorov-Smirnov y Lilliefors para determinar si se tiene una distribución normal.
+
+```{r echo=F}
+ks.test(movies$popularity, rnorm(nrow(movies), mean(movies$popularity), sd(movies$popularity)))
+
+library(nortest)
+lillie.test(movies$popularity)
+```
+
+Se puede determinar, debido a que el valor p es menor al nivel de significancia, que la distribución de popularity no es normal.
+
+### Prueba de normalidad para **voteAvg**.
+
+Se realizó un histograma para observar la distribución de la variable.
+
+```{r echo=F}
+hist(movies$voteAvg)
+```
+
+Se puede observar en el histograma que existe un sesgo a la izquierda en la distribución.
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de voteAvg.  
+```{r echo=FALSE}
+qqnorm(movies$voteAvg)
+qqline(movies$voteAvg, col="red")
+```
+
+Es posible observar una diferencia con la distribución teórica en la variable, sobre todo en los extremos. Sin embargo, un gran porcentaje de los valores de la distribución se acercan a la línea, por lo que puede ser que sea normal la distribución  
+
+Se realizó la prueba de normalidad de Kolmogorov-Smirnov y Lilliefors para determinar si se tiene una distribución normal.
+
+```{r echo=F}
+ks.test(movies$voteAvg, rnorm(nrow(movies), mean(movies$voteAvg), sd(movies$voteAvg)))
+
+library(nortest)
+lillie.test(movies$voteAvg)
+```
+
+La distribución de voteAvg no es normal, debido a que el valor p de ambos tests no es mayor al nivel de significancia (0.05).
+
+### Prueba de normalidad para **voteCount**.  
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de voteCount.  
+```{r echo=FALSE}
+qqnorm(movies$voteCount)
+qqline(movies$voteCount, col="red")
+```
+
+Es posible observar que la distribución de budget se aleja significativamente de la distribución teórica. Esto indica que probablemente no se tenga una distribución normal.  
+
+Luego se realizó la prueba de normalidad de Kolmogorov-Smirnov, usando la media y desviación estándar del budget del dataset.
+
+```{r echo=F}
+ks.test(movies$voteCount, rnorm(nrow(movies), mean(movies$voteCount), sd(movies$voteCount)))
+
+library(nortest)
+lillie.test(movies$voteCount)
+```
+
+
+### Prueba de normalidad para **genresAmount**.  
+
+Se realizó un histograma para la variable
+
+```{r echo=F}
+hist(movies$genresAmount)
+```
+
+Se puede observar en el histograma que existe un sesgo hacia la derecha de la distribución de la variable. No parece ser una distribución normal.
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de genresAmount.  
+```{r echo=FALSE}
+qqnorm(movies$genresAmount)
+qqline(movies$genresAmount, col="red")
+```
+
+Es posible observar que la distribución de la variable se da en una especie de gradas. No se acerca a la línea teórica, por lo que no parece ser normal.
+
+Luego se realizó la prueba de Lilliefors.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(movies$genresAmount)
+```
+
+Por medio del valor p se puede confirmar que la distribución de los datos no es normal, debido a que es menor a la significancia.
+
+### Prueba de normalidad para **productionCoAmount**.  
+
+Inicialmente se realizó un histograma para observar la distribución de los datos.
+
+```{r echo=F}
+hist(movies$productionCoAmount)
+```
+
+Visualmente en el histograma, los datos no siguen una distribución normal. Tienen un sesgo hacia la derecha.
+
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de productionCoAmount.  
+```{r echo=FALSE}
+qqnorm(movies$productionCoAmount)
+qqline(movies$productionCoAmount, col="red")
+```
+
+Es posible observar que la distribución de los valores se alejan de la dsitribución teórica, principalmente en los extremos. La distribución no es normal.
+
+Se realizó la prueba de Lilliefors para determinar si hay normalidad.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(movies$productionCoAmount)
+```
+
+El valor p de la prueba es menor al nivel de significancia, lo cual permite rechazar la hipótesis de que la variable tiene una distribución normal.
+
+### Prueba de normalidad para **productionCountriesAmount**. 
+
+Se realizó un histograma para ver la distribución de la variable.
+
+```{r echo=FALSE}
+
+hist(movies$productionCountriesAmount)
+
+```
+
+Por medio del histograma se puede ver que la distribución de los datos probablemente no es normal, porque hay una gran concentración de datos del lado izquierdo.
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de productionCountriesAmount.  
+```{r echo=FALSE}
+qqnorm(movies$productionCountriesAmount)
+qqline(movies$productionCountriesAmount, col="red")
+```
+
+Es posible observar que la distribución de los valores se alejan de la dsitribución teórica, principalmente en el extremo derecho.
+
+Se realizó la prueba de Lilliefors para determinar si hay normalidad.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(movies$productionCountriesAmount)
+```
+
+El valor p es demasiado bajo, por lo que es posible rechazar la hipótesis de que la distribución es normal.
+
+
+### Prueba de normalidad para **actorsAmount**. 
+
+Se realizó un histograma para ver la distribución de la variable.
+
+```{r echo=FALSE}
+
+hist(movies$actorsAmount)
+
+```
+
+Por medio del histograma se puede ver que la distribución de los datos probablemente no es normal, porque hay una gran concentración de datos del lado izquierdo.
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de actorsAmount.  
+```{r echo=FALSE}
+qqnorm(movies$actorsAmount)
+qqline(movies$actorsAmount, col="red")
+```
+
+En el extremo derecho hay muchos valores que no se ajustan a la distribución teórica, por lo que se continúa teniendo la hipótesis de que la distribución no es normal.
+
+Se realizó la prueba de Lilliefors para determinar si hay normalidad.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(movies$actorsAmount)
+```
+
+Al ver que el valor p es demasiado bajo, es posible rechazar la hipótesis de que la distribución es normal.
+
+
+### Prueba de normalidad para **castWomenAmount**. 
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de castWomenAmount.  
+```{r echo=FALSE}
+castWomen <- strtoi(movies$castWomenAmount)
+qqnorm(castWomen)
+qqline(castWomen, col="red")
+```
+
+Es posible observar que los valores en la variable en el extremo derecho se alejan significativamente de la línea teórica.
+
+Luego se realizó la prueba de normalidad de Lilliefors.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(castWomen)
+```
+
+La cantidad de mujeres en las películas no sigue una distribución normal, porque el valor de p es más bajo que el nivel de significancia.
+
+### Prueba de normalidad para **castMenAmount**. 
+
+A continuación se realizó un QQplot para observar la distribución de los
+valores de castMenAmount.  
+```{r echo=FALSE}
+castMen <- strtoi(movies$castMenAmount)
+qqnorm(castMen)
+qqline(castMen, col="red")
+```
+
+Es posible observar que los valores en la variable en el extremo derecho se alejan significativamente de la línea teórica.
+
+Luego se realizó la prueba de normalidad de Lilliefors.
+
+```{r echo=F}
+
+library(nortest)
+lillie.test(castMen)
+```
+
+La cantidad de hombres en las películas no sigue una distribución normal, porque el valor de p es más bajo que el nivel de significancia.
+
+
+### Tablas de frecuencias para variables cualitativas  
+
+A continuación se muestra la frecuencia de películas que tienen **homePage** y las que no.
+```{r echo=F}
+movies["hasHomePage"] = is.na(movies$homePage)
+homePage <- table(movies$hasHomePage)
+
+homePage
+
+barplot(homePage, col=c("orange", "blue"))
+
+```
+
+A continuación se muestra la frecuencia de películas que tienen **video** y las que no.
+```{r echo=F}
+movies["hasVideo"] = is.na(movies$video)
+video <- table(movies$hasVideo)
+
+video
+
+barplot(video, col=c("orange", "blue"))
+
+```
+
+
+A continuación se muestra la frecuencia del **lenguaje original** de las películas.
+```{r echo=F}
+originalLanguage <- table(movies$originalLanguage)
+
+originalLanguage
+
+barplot(originalLanguage, col=c("orange", "blue"))
+
+```
+
+Finalmente se muestra la cantidad de películas por año.
+```{r echo=F}
+years <- table(format(as.POSIXct(movies$releaseDate), "%Y"))
+
+barplot(years, col=c("orange", "blue"))
+
+```
+
+También se muestra por mes.
+
+```{r echo=F}
+years <- table(format(as.POSIXct(movies$releaseDate), "%m"))
+
+barplot(years, col=c("orange", "blue"))
+
+```
+
+## 4. Preguntas importantes del dataset.
+
+### 4.1 ¿Cuáles son las 10 películas que contaron con más presupuesto?  
+
+Las 10 películas que tuvieron mayor presupuesto se muestran a continuación  
+mostrando también su presupuesto respectivo.
+```{r, echo=FALSE}
+ordered <- movies[order(movies$budget, decreasing=T),]
+firstTenMovies <- ordered[1:10,]
+firstTenMovies <- firstTenMovies[, c("title", "budget")]
+
+firstTenMovies
+
+library(ggplot2)
+
+p <- ggplot(firstTenMovies, aes(x=title, y=budget, fill=title)) +
+  geom_bar(stat="identity")+theme_minimal()+theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+p + scale_fill_brewer(palette="Dark2")
+```
+
+
+### 4.2 ¿Cuáles son las 10 películas que más ingresos tuvieron?  
+
+Las 10 películas que tuvieron más ingresos, con su cantidad respectiva, se  
+muestran a continuación.
+```{r, echo=FALSE}
+moviesByRevenue <- movies[order(movies$revenue, decreasing=T),]
+firstTenMovies <- moviesByRevenue[1:10,]
+firstTenMovies[, c("title", "revenue")]
+```
+
+### 4.3 ¿Cuál es la película que más votos tuvo?  
+
+La película que más votos tuvo se muestra a continuación  
+```{r, echo=FALSE}
+ordered <- movies[order(movies$voteCount, decreasing=T),]
+firstTenMovies <- ordered[1,]
+firstTenMovies[, c("title", "voteCount")]
+```
+
+### 4.4 ¿Cuál es la peor película de acuerdo a los votos de todos los usuarios?   
+
+
+La pelicula con el peor promedio de estrellas es
+```{r, echo=FALSE}
+worst <- movies[which.min(movies$voteAvg),]
+worst$title
+```  
+
+### 4.5 ¿Cuántas  películas  se  hicieron  en  cada  año?   Haga un gráfico de barras  
+```{r pressure, echo=FALSE}
+
+library(dplyr)
+
+movies$releaseDate <- as.Date(movies$releaseDate, format = "%Y-%m-%d")
+
+movies$releaseYear<-as.numeric(format(movies$releaseDate,format="%Y"))
+
+movies_per_year <- movies %>%group_by(releaseYear) %>%summarise(count = n())
+
+mostyears <- movies_per_year %>% slice_tail(n = 1) %>% pull(releaseYear)
+movies_per_year
+
+```
+
+### ¿En  qué  año  se  hicieron  más películas?  
+
+Fue en el `r mostyears`.   
+
+```{r , echo=FALSE}
+library(ggplot2)
+
+ggplot(movies_per_year, aes(releaseYear, count)) +
+  geom_col() +
+  ggtitle(paste("Number of movies produced per year (Max in", mostyears, ")")) +
+  xlab("Year") +
+  ylab("Count")
+
+```
+
+### 4.6 ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género principal que predomina en el conjunto de datos? Represéntelo usando un gráfico 
+
+
+```{r , echo=FALSE}
+ordered <- movies[order(movies$runtime, decreasing=T),]
+firstTwentyMovies <- ordered[1:20,]
+genres20 <- vapply(strsplit(firstTwentyMovies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+unique(genres20)
+
+genres <- vapply(strsplit(movies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+table <- table(genres)
+names(table[which.max(table)])
+barplot(table)
+
+
+```
+
+### 4.7 ¿Las películas de qué genero principal obtuvieron mayores ganancias? 
+
+
+```{r, echo = F}
+
+genres2 <- vapply(strsplit(movies[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE =character(1))
+movies_with_genres <- cbind(movies, genres2)
+total_revenue_by_genre <- movies_with_genres %>% group_by(genres2) %>% summarise(revenue = sum(revenue))
+top_genre_by_revenue <- total_revenue_by_genre[order(-total_revenue_by_genre$revenue), ]
+
+head(top_genre_by_revenue, 5)
+
+
+```
+
+### 4.8 ¿La cantidad de actores influye en los ingresos de las películas?
+
+```{r, echo = F}
+library(dplyr)
+movies_grouped <- movies %>% group_by(actorsAmount) %>% summarize(mean_revenue = mean(revenue))
+
+movies_grouped
+
+library(corrplot)
+
+Fr <- cor(movies_grouped[,c("actorsAmount","mean_revenue")])
+Fr
+corrplot(Fr)
+
+```
+
+### ¿Se han hecho  películas con más actores en los últimos años? 
+
+```{r, echo = F}
+# primero convertimos la fecha de lanzamiento a un formato de fecha
+movies$releaseDate <- as.Date(movies$releaseDate, format = "%Y-%m-%d")
+
+# luego agregamos una columna para el año
+movies$releaseYear <- as.numeric(format(movies$releaseDate, format = "%Y"))
+
+# agrupamos las películas por año y calculamos el promedio de actores por película por año
+mean_actors_per_movie_per_year <- movies %>%
+  group_by(releaseYear) %>%
+  summarise(mean_actors = mean(actorsAmount))
+
+# hacemos un gráfico de barras para visualizar la tendencia
+library(ggplot2)
+ggplot(mean_actors_per_movie_per_year, aes(x = releaseYear, y = mean_actors)) +
+  geom_col() +
+  labs(x = "Año de lanzamiento", y = "Promedio de actores por película")
+
+
+```
+
+### 4.9 ¿Es posible que la cantidad de hombres y mujeres en el  reparto influya en la popularidad y los ingresos de las películas?  
+
+```{r, echo = F}
+
+
+movies$castMenAmount <- as.numeric(gsub("[^0-9]", "", movies$castMenAmount))
+movies$castWomenAmount <- as.numeric(gsub("[^0-9]", "", movies$castWomenAmount))
+movies$castMenAmount[is.na(movies$castMenAmount)] <- 0
+movies$castWomenAmount[is.na(movies$castWomenAmount)] <- 0
+
+
+library(corrplot)
+
+M <- cor(movies[,c("popularity","revenue","castMenAmount","castWomenAmount")])
+M
+corrplot(M)
+
+```
+
+Con lo observado en la correlacion se puede inferir que la cantidad de actores hombres ni la cantidad de actoras mujeres afectan a la popularidad de la pelicula o al revenue.  
+
+```{r echo=FALSE}
+films <- read.csv("movies.csv",encoding = "UTF-8")
+```
+
+### 4.10
+
+Los directores que hicieron las 20 películas mejor 
+calificadas son:
+```{r, echo=FALSE}
+ordered <- films[order(films$voteAvg, decreasing=T),]
+directors <- ordered[1:20,]
+directors <- directors[, c("director")]
+directors <- directors[directors != ""]
+directors <- unique(directors)
+for (x in directors) {
+  if (validUTF8(x)) {
+    print(unlist(strsplit(x, split = "|", fixed = T)))
+  }
+}
+# strsplit(directors, split = "|", fixed = T) 
+```
+
+## 4.11
+```{r echo = FALSE}
+library(corrplot)
+
+mat <- cor(films[,c("revenue","budget","voteAvg","voteCount","popularity","genresAmount")])
+
+corrplot(mat)
+```
+
+Por medio de la grafica nos podemos dar cuenta que existe una relacion entre el presupuesto y los ingresos de las peliculas. Cabe mencionar que existen datos a tipicos que no cumplen con la relacion pero esto no quiere decir que no exista.
+
+
+
+## 4.12
+
+```{r}
+
+meses <- as.Date(films[, c("releaseDate")])
+
+ingresos_por_mes <- tapply(films$revenue, format(meses, "%m"), mean)
+
+barplot(ingresos_por_mes, main="Ingresos promedio por mes", xlab="Mes", ylab="Ingresos promedio")
+```
+
+ A partir de la grafica se puede asumir que los meses asociados con mejores ingresos son: mayo, junio, julio y diciembre.
+
+
+
+## 4.13
+Las peliculas con mejores ingresos se lanzaron en los siguinetes meses:
+```{r, echo=FALSE}
+#quantile(films$revenue, seq(0,1,0.001))
+MejoresIn <- films[films$revenue >= 1.450092e+09, ]
+
+meses <- as.Date(MejoresIn[, c("releaseDate")])
+mes <- format(meses, "%B")
+
+unique(mes)
+
+
+```
+En promedio por mes se lanzaron:
+```{r, echo=FALSE}
+
+totalM <- as.Date(films[, c("releaseDate")])
+
+fechas_por_mes <- paste(format(totalM, "%Y"), format(totalM, "%m"), sep="-")
+
+lanzamientos_por_mes <- table(fechas_por_mes)
+
+promedio_lanzamientos_por_mes <- mean(lanzamientos_por_mes)
+
+promedio_lanzamientos_por_mes
+
+
+```
+
+## 4.14
+
+```{r echo = FALSE}
+library(corrplot)
+
+mat <- cor(films[,c("revenue","budget","voteAvg","voteCount","popularity","genresAmount")])
+
+corrplot(mat)
+```
+
+Como se observe en la grafica si existe una ralacion sobre las peliculas que obtuvieron mayor cantidad de ingresos con las que fueron mayor votadas.
+
+
+## 4.15
+Los generos principales de las peliculas mas largas son:
+
+```{r, echo=FALSE}
+#quantile(films$runtime, seq(0,1,0.01))
+mayores <- films[films$runtime >= 170, ]
+
+
+mayores$genres <- vapply(strsplit(mayores[, c("genres")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+unique(mayores$genres)
+
+
+```
+
+## Preguntas extra
+
+### ¿La cantidad de géneros a la que pertenece una películas influye en su popularidad y sus ganancias?
+
+### Correlación entre popularidad y cantidad de géneros.
+```{r echo=F}
+
+library(ggplot2)
+ggplot(movies, aes(x=popularity, y=genresAmount))
+
+library(corrplot)
+library(RColorBrewer)
+M <-cor(movies[, c("popularity", "genresAmount")])
+M
+corrplot(M)
+
+```
+
+Al observar el gráfico de dispersión se evidencia que no existen una relación entre las variables. Además, al hacer el gráfico de correlación, igualmente se muestra que no existe correlación. Siendo el valor de R^2 0.03, se confirma que la popularidad de una película no depende de la cantidad de géneros a la que pertenece.
+
+### Correlación entre ingresos y cantidad de géneros.
+
+```{r echo=F}
+
+library(ggplot2)
+ggplot(movies, aes(x=revenue, y=genresAmount)) + geom_point()
+
+library(corrplot)
+library(RColorBrewer)
+M <-cor(movies[, c("revenue", "genresAmount")])
+M
+corrplot(M)
+
+```
+
+Al observar el gráfico de dispersión se evidencia que no existen una relación entre las variables. Al hacer el gráfico de correlación se muestra una ligera relación, sin embargo, no es lo suficientemente grande para indicar que los ingresos dependen de la cantidad de géneros. Siendo el valor de R^2 0.14, se confirma que los ingresos de una película no dependen de la cantidad de géneros a la que pertenece.
+
+
+### ¿Cuál es la correlación entre la cantidad de compañías y la popularidad de una película?
+
+```{r echo=F}
+
+library(ggplot2)
+ggplot(movies, aes(x=popularity, y=productionCoAmount)) + geom_point()
+
+library(corrplot)
+library(RColorBrewer)
+M <-cor(movies[, c("popularity", "productionCoAmount")])
+M
+corrplot(M)
+
+```
+
+Como se observa en el gráfico de dispersión, existen datos que no parecen estar relacionados entre sí. Además, el gráfico de correlación muestra que no existe relación entre las variables, confirmado por el valor de R^2 de 0.005. Entonces, la cantidad de compañías productoras no afecta la popularidad de la película.
+
+### ¿El ingreso de una película tiene relación con la presencia de un vídeo promocional de esta?
+
+```{r}
+videoAsNumeric <- as.numeric(movies$hasVideo)
+
+cor.test(movies$revenue, videoAsNumeric)
+```
+
+El índice de correlación es bajo entre ambas variables, por lo tanto se puede indicar que la presencia de un video promocional tiene poca influencia en los ingresos de una película.
+
+
+### ¿Cómo se comporta el revenue de una película según su lenguaje?
+
+```{r echo=F}
+group <- aggregate(movies$revenue, list(movies$originalLanguage), FUN=mean)
+colnames(group) <- c("language", "avg_revenue")
+
+
+p <- ggplot(group, aes(x=language, y=avg_revenue)) +
+  geom_bar(stat="identity")+theme_minimal()
+p
+```
+
+
+Al observar el histograma, se puede mencionar que los lenguajes que más revenue promedio tienen son el chino, el inglés y el árabe.
+
+## ¿La popularidad de una película se relaciona con la popularidad de los actores en ella?
+```{r echo = FALSE}
+library(corrplot)
+
+popul <- vapply(strsplit(films[, c("actorsPopularity")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+
+popular <- as.double(popul)
+popularMV <- films$popularity
+
+
+naAC <- which(is.na(popular))
+naMV <- which(is.na(popularMV))
+
+borrar <- c(naAC, naMV)
+
+
+
+popularityAc <- popular[- borrar] 
+popularityMV <- popularMV[- borrar] 
+
+
+df <- data.frame (pop_actores  = popularityAc,
+                  pop_pelicula = popularityMV
+                  )
+
+mat <- cor(df[,c("pop_actores","pop_pelicula")])
+
+corrplot(mat)
+
+```
+
+Tras observar el grafico se puede notar que la relacion entre la popularidad de las peliculas y la de los actores es muy pequeña y se puede considerar casi nula.
+
+
+## ¿El presupuesto de una pelicula se relaciona con la popularidad de los actores en ella?
+```{r echo = FALSE}
+library(corrplot)
+
+popul <- vapply(strsplit(films[, c("actorsPopularity")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+
+popular <- as.double(popul)
+presupuesto <- films$budget
+
+
+naAC <- which(is.na(popular))
+naP <- which(is.na(presupuesto))
+
+borrar <- c(naAC, naP)
+
+
+
+popularityAc <- popular[- borrar] 
+presupuestoF <- presupuesto[- borrar] 
+
+
+df <- data.frame (pop_actores  = popularityAc,
+                  presupuesto = presupuestoF
+                  )
+
+mat <- cor(df[,c("pop_actores","presupuesto")])
+
+corrplot(mat)
+
+```
+
+Como se puede observar en la grafica, puede existe una relacion entre el presupuesto de una pelicula y la popularidad de los actores.
+
+
+### ¿Cuáles son los géneros de películas que generan más ingresos en promedio? 
+
+```{r, echo = F}
+
+
+generes_revenue <- data.frame(table(genres),revenue = tapply(movies$revenue,genres,mean))
+generes_revenue <- generes_revenue[order(generes_revenue$revenue,decreasing=T),]
+
+head(generes_revenue)
+
+pie(generes_revenue$revenue,labels=generes_revenue$genre,main = "Promedio de ingreso por Genero")
+
+
+```
+
