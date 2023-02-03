@@ -97,16 +97,18 @@ head(top_genre_by_revenue, 5)
 ```{r, echo = F}
 library(dplyr)
 movies_grouped <- movies %>% group_by(actorsAmount) %>% summarize(mean_revenue = mean(revenue))
-library(ggplot2)
-ggplot(movies_grouped, aes(x = actorsAmount, y = mean_revenue)) + 
-  geom_col() + 
-  xlab("Cantidad de actores") + 
-  ylab("Media de ingresos (en millones)") + 
-  ggtitle("Relación entre la cantidad de actores y los ingresos de las películas")
+
+movies_grouped
+
+library(corrplot)
+
+Fr <- cor(movies_grouped[,c("actorsAmount","mean_revenue")])
+Fr
+corrplot(Fr)
 
 ```
 
-### 4.8 ¿Se han hecho  películas con más actores en los últimos años? 
+### ¿Se han hecho  películas con más actores en los últimos años? 
 
 ```{r, echo = F}
 # primero convertimos la fecha de lanzamiento a un formato de fecha
@@ -128,3 +130,26 @@ ggplot(mean_actors_per_movie_per_year, aes(x = releaseYear, y = mean_actors)) +
 
 
 ```
+
+### 4.9 ¿Es posible que la cantidad de hombres y mujeres en el  reparto influya en la popularidad y los ingresos de las películas?  
+
+```{r, echo = F}
+
+
+movies$castMenAmount <- as.numeric(gsub("[^0-9]", "", movies$castMenAmount))
+movies$castWomenAmount <- as.numeric(gsub("[^0-9]", "", movies$castWomenAmount))
+movies$castMenAmount[is.na(movies$castMenAmount)] <- 0
+movies$castWomenAmount[is.na(movies$castWomenAmount)] <- 0
+
+
+library(corrplot)
+
+M <- cor(movies[,c("popularity","revenue","castMenAmount","castWomenAmount")])
+M
+corrplot(M)
+
+```
+
+Con lo observado en la correlacion se puede inferir que la cantidad de actores hombres ni la cantidad de actoras mujeres afectan a la popularidad de la pelicula o al revenue.  
+
+
