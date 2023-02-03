@@ -114,3 +114,75 @@ unique(mayores$genres)
 ```
 
 
+
+## ¿La popularidad de una película se relaciona con la popularidad de los actores en ella?
+```{r echo = FALSE}
+library(corrplot)
+
+popul <- vapply(strsplit(films[, c("actorsPopularity")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+
+popular <- as.double(popul)
+popularMV <- films$popularity
+
+
+naAC <- which(is.na(popular))
+naMV <- which(is.na(popularMV))
+
+borrar <- c(naAC, naMV)
+
+
+
+popularityAc <- popular[- borrar] 
+popularityMV <- popularMV[- borrar] 
+
+
+df <- data.frame (pop_actores  = popularityAc,
+                  pop_pelicula = popularityMV
+                  )
+
+mat <- cor(df[,c("pop_actores","pop_pelicula")])
+
+corrplot(mat)
+
+```
+
+Tras observar el grafico se puede notar que la relacion entre la popularidad de las peliculas y la de los actores es muy pequeña y se puede considerar casi nula.
+
+
+## ¿El presupuesto de una pelicula se relaciona con la popularidad de los actores en ella?
+```{r echo = FALSE}
+library(corrplot)
+
+popul <- vapply(strsplit(films[, c("actorsPopularity")], split="|", fixed = T), '[', 1, FUN.VALUE = character(1))
+
+
+popular <- as.double(popul)
+presupuesto <- films$budget
+
+
+naAC <- which(is.na(popular))
+naP <- which(is.na(presupuesto))
+
+borrar <- c(naAC, naP)
+
+
+
+popularityAc <- popular[- borrar] 
+presupuestoF <- presupuesto[- borrar] 
+
+
+df <- data.frame (pop_actores  = popularityAc,
+                  presupuesto = presupuestoF
+                  )
+
+mat <- cor(df[,c("pop_actores","presupuesto")])
+
+corrplot(mat)
+
+```
+
+Como se puede observar en la grafica, puede existe una relacion entre el presupuesto de una pelicula y la popularidad de los actores.
+
+
+
