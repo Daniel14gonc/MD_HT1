@@ -11,9 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r echo=FALSE}
 films <- read.csv("movies.csv",encoding = "UTF-8")
 ```
+
 ### 4.10
 
-
+Los directores que hicieron las 20 películas mejor 
+calificadas son:
 ```{r, echo=FALSE}
 ordered <- films[order(films$voteAvg, decreasing=T),]
 directors <- ordered[1:20,]
