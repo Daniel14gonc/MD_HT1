@@ -153,3 +153,17 @@ corrplot(M)
 Con lo observado en la correlacion se puede inferir que la cantidad de actores hombres ni la cantidad de actoras mujeres afectan a la popularidad de la pelicula o al revenue.  
 
 
+### EXTRA: ¿Cuáles son los géneros de películas que generan más ingresos en promedio? 
+
+```{r, echo = F}
+
+
+generes_revenue <- data.frame(table(genres),revenue = tapply(movies$revenue,genres,mean))
+generes_revenue <- generes_revenue[order(generes_revenue$revenue,decreasing=T),]
+
+head(generes_revenue)
+
+pie(generes_revenue$revenue,labels=generes_revenue$genre,main = "Promedio de ingreso por Genero")
+
+
+```
