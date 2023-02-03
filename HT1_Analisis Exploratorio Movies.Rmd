@@ -1,5 +1,5 @@
 ---
-title: "HT 1. Analisis Exploratorio"
+title: "HT1. Analisis Exploratorio"
 author: "Juan Angel Carrera, Jose Daniel Gonzalez, Diego Jose Franco"
 date: "2023-02-03"
 output: html_document

@@ -510,7 +510,7 @@ cor(movies$budget, movies$revenue)
 ```{r echo=F}
 
 library(ggplot2)
-ggplot(movies, aes(x=popularity, y=genresAmount))
+ggplot(movies, aes(x=popularity, y=genresAmount)) + geom_point()
 
 library(corrplot)
 library(RColorBrewer)
